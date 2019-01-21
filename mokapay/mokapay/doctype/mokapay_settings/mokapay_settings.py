@@ -4,7 +4,7 @@
 # @Project: Harpiya Kurumsal Yönetim Sistemi
 # @Filename: mokapay_settings.py
 # @Last modified by:   developer
-# @Last modified time: 2019-01-21T23:14:51+03:00
+# @Last modified time: 2019-01-21T23:17:31+03:00
 # @License: MIT License. See license.txt
 # @Copyright: Harpiya Yazılım Teknolojileri
 
@@ -272,7 +272,7 @@ class MokaPaySettings(Document):
 
 			# track ip for tranasction records
 			if frappe.local.request_ip:
-				transaction_data.update({
+				transaction_data.join({
 					"PaymentDealerRequest": {
 						"ClientIP": frappe.local.request_ip
 					}
@@ -285,7 +285,7 @@ class MokaPaySettings(Document):
 			# see: https://vcatalano.github.io/py-authorize/transaction.html
 			if self.card_info != None:
 				# exp formating for sale/auth api
-				transaction_data.update({
+				transaction_data.join({
 					"PaymentDealerRequest": {
 						"CardHolderFullName": self.card_info.get("CardHolderFullName"),
 						"CardNumber": self.card_info.get("CardNumber"),
