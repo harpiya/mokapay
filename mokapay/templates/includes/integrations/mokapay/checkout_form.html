@@ -1,0 +1,37 @@
+<div class="container-fluid mokapay-form" id="mokapay-page-form">
+	<div class="row nopadding">
+		<div class="col-md-6 col-md-push-6 nopadding">
+			<h2>Payment Details</h2>
+			<div class="row">
+				<div class="col-xs-12">{{ title }}</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">{{ description }}</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-8">Reference</div>
+				<div class="col-xs-4">{{ order_id }}</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-8">Total Amount</div>
+				<div class="col-xs-4">{{ amount }}</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12" id="mokapay-error">
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6 col-md-pull-6 col-sm-6 nopadding">
+			{% include "templates/includes/integrations/mokapay/embed.html" with context %}
+		</div>
+		<div class='mokapay-confirming hidden'>
+			Processing...
+	  </div>
+  </div>
+	<div class="row nopadding actions">
+		<div class="col-sm-12">
+			<div class="text-center"><button id="mokapay-process-btn" class="btn btn-primary btn-default">Process Payment</button></div>
+		</div>
+	</div>
+
+</div>

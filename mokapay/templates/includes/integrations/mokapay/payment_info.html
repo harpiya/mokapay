@@ -1,0 +1,63 @@
+<form id="mokapay-payment-form" class="mokapay-form">
+  <div class="row no-gutter">
+    <div class="col-sm-12">
+      <div class="field required">
+        <label for="mokapay_name">Name on Card</label>
+        <input id="mokapay_name" name="mokapay_name" placeholder="Name on Card"/>
+      </div>
+    </div>
+  </div>
+  <div class="row no-gutter">
+    <div class="col-sm-12">
+      <div class="field required">
+        <label for="mokapay_number">Card Number</label>
+        <input id="mokapay_number" name="mokapay_number" placeholder="Card Number"/>
+      </div>
+    </div>
+  </div>
+	<div class="row no-gutter">
+		<div class="col-xs-4">
+			<div class="field required">
+        <label for="mokapay_exp_month">Exp Month</label>
+        <input id="mokapay_exp_month" name="mokapay_exp_month" placeholder="MM" length="2" type="text"/>
+      </div>
+		</div>
+		<div class="col-xs-4">
+			<div class="field required">
+        <label for="mokapay_exp_year">Exp Year</label>
+        <input id="mokapay_exp_year" name="mokapay_exp_year" placeholder="YYYY" length="4" type="text"/>
+      </div>
+		</div>
+		<div class="col-xs-4">
+      <div class="field required">
+        <label for="mokapay_code">Card Code</label>
+        <input id="mokapay_code" name="mokapay_code" placeholder="Card Code" length="4" type="text"/>
+      </div>
+    </div>
+	</div>
+	{% if is_backend %}
+	<div class="row no-gutter">
+		<div class="col-xs-12 nopad-left">
+      <div class="field required">
+        <label for="mokapay_zipcode">Postal Code</label>
+        <input id="mokapay_zipcode" name="pincode" placeholder="Postal Code" data-type="pincode" maxlength="35"/>
+      </div>
+    </div>
+	</div>
+	{% endif %}
+	<!--
+  <div class="row no-gutter">
+    <div class="col-sm-12">
+      <div class="field custom">
+        <label class="switch-field">
+          <div class="switch-text">Store payment information for faster checkout.</div>
+          <div class="switch">
+            <input type="checkbox" id="mokapay_store_payment" name="mokapay_store_payment">
+            <div class="slider"></div>
+          </div>
+        </label>
+      </div>
+    </div>
+  </div>
+-->
+</form>

@@ -1,0 +1,52 @@
+<div id="mokapay-billing-form" class="mokapay-form">
+  <div class="row no-gutter">
+    <div class="col-sm-12">
+      <div class="field required">
+        <label for="mokapay_bill_line1">Address</label>
+        <input id="mokapay_bill_line1" name="mokapay_bill_line1" placeholder="Address 1" data-type="address_1"/>
+      </div>
+    </div>
+  </div>
+  <div class="row no-gutter">
+    <div class="col-sm-12">
+      <div class="field">
+        <label for="mokapay_bill_line2">Address 2</label>
+        <input id="mokapay_bill_line2" name="mokapay_bill_line2" placeholder="Address 2" data-type="address_2"/>
+      </div>
+    </div>
+  </div>
+  <div class="row no-gutter">
+    <div class="col-xs-6 nopad-right">
+      <div class="field required">
+        <label for="mokapay_bill_city">City</label>
+        <input id="mokapay_bill_city" name="mokapay_bill_city" placeholder="City" data-type="city"/>
+      </div>
+    </div>
+    <div class="col-xs-3 nopad-right">
+      <div class="field">
+        <label for="mokapay_bill_state">State</label>
+        <input id="mokapay_bill_state" name="mokapay_bill_state" placeholder="State" data-type="state"/>
+      </div>
+    </div>
+    <div class="col-xs-3 nopad-left">
+      <div class="field required">
+        <label for="mokapay_bill_pincode">Postal Code</label>
+        <input id="mokapay_bill_pincode" name="mokapay_bill_pincode" placeholder="Postal Code" data-type="pincode"/>
+      </div>
+    </div>
+  </div>
+  <div class="row no-gutter">
+    <div class="col-sm-12">
+      <div class="field required">
+        <label for="mokapay_bill_country">Country</label>
+        <select id="mokapay_bill_country" name="mokapay_bill_country" data-type="country">
+          <option selected>- Select Country -</option>
+          {% for country in mokapay_countries %}
+          <option value="{{country.name}}">{{country.country_name}}</option>
+          {% endfor %}
+        </select>
+        <span class="select-arrow glyphicon glyphicon-triangle-bottom"></span>
+      </div>
+    </div>
+  </div>
+</div>

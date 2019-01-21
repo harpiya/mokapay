@@ -1,0 +1,13 @@
+{
+  "js/mokapay_settings.js": [
+    "mokapay/doctype/mokapay_settings/mokapay_settings.js"
+  ],
+  "js/mokapay_embed.js": [
+    "public/js/templates/mokapay_summary.html",
+    "templates/includes/integrations/mokapay/process.js",
+    "public/js/mokapay_embed.js"
+  ],
+  "css/mokapay_embed.css": [
+    "templates/includes/integrations/mokapay/css/checkout.css"
+  ]
+}
