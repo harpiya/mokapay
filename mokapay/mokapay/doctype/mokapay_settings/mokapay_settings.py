@@ -4,7 +4,7 @@
 # @Project: Harpiya Kurumsal Yönetim Sistemi
 # @Filename: mokapay_settings.py
 # @Last modified by:   developer
-# @Last modified time: 2019-01-21T23:47:32+03:00
+# @Last modified time: 2019-01-22T00:00:50+03:00
 # @License: MIT License. See license.txt
 # @Copyright: Harpiya Yazılım Teknolojileri
 
@@ -299,13 +299,16 @@ class MokaPaySettings(Document):
 			headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
 			result = make_post_request("https://service.testmoka.com/PaymentDealer/DoDirectPaymentThreeD", data=json.dumps(transaction_data), headers=headers)
 			request.log_action(json.dumps(result), "Debug")
-			print(result)
-			print(request)
+
 			# if all went well, record transaction id
-			request.transaction_id = result.get('Data')
-			redirect_url = result.get("Data")
-			request.status = "Captured"
-			request.flags.ignore_permissions = 1
+			if result.get('Data') != null:
+				request.transaction_id = result.get('Data')
+				redirect_url = result.get("Data")
+				request.status = "Captured"
+				request.flags.ignore_permissions = 1
+			else:
+				request.status = "Failed"
+				request.flags.ignore_permissions = 1			
 
 		except MokaInvalidError as iex:
 			# log validation errors
