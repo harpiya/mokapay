@@ -4,7 +4,7 @@
 # @Project: Harpiya Kurumsal Yönetim Sistemi
 # @Filename: mokapay_settings.py
 # @Last modified by:   developer
-# @Last modified time: 2019-01-21T23:17:31+03:00
+# @Last modified time: 2019-01-21T23:26:25+03:00
 # @License: MIT License. See license.txt
 # @Copyright: Harpiya Yazılım Teknolojileri
 
@@ -259,60 +259,24 @@ class MokaPaySettings(Document):
 					"CheckKey": "e9173cf746029f6a4c7d345f6c2f761805bbff08d2a990cd55748378189a2e76"
 				},
 				"PaymentDealerRequest": {
+					"CardHolderFullName": self.card_info.get("CardHolderFullName"),
+					"CardNumber": self.card_info.get("CardNumber"),
+					"ExpMonth": self.card_info.get("ExpMonth"),
+					"ExpYear": self.card_info.get("ExpYear"),
+					"CvcNumber": self.card_info.get("CvcNumber"),
 					"Amount": flt(self.process_data.get("amount")),
+					"Currency": "TL"
 					"InstallmentNumber": "1",
 					"OtherTrxCode": data["order_id"],
 					"IsPreAuth": 0,
 					"IsPoolPayment": 0,
 					"RedirectUrl": "https://pos.testmoka.com/DealerPayment/PayResult?MyTrxId=1A2B3CD456",
 					"RedirectType": 0,
-					"Description":self.card_info.get("CardHolderFullName")
+					"Description":self.card_info.get("CardHolderFullName"),
+					"ClientIP": frappe.local.request_ip
 				}
 			}
 
-			# track ip for tranasction records
-			if frappe.local.request_ip:
-				transaction_data.join({
-					"PaymentDealerRequest": {
-						"ClientIP": frappe.local.request_ip
-					}
-				})
-
-			# get mokapay profile informatio for stored payments
-			mokapay_profile = self.process_data.get("mokapay_profile");
-
-			# use card
-			# see: https://vcatalano.github.io/py-authorize/transaction.html
-			if self.card_info != None:
-				# exp formating for sale/auth api
-				transaction_data.join({
-					"PaymentDealerRequest": {
-						"CardHolderFullName": self.card_info.get("CardHolderFullName"),
-						"CardNumber": self.card_info.get("CardNumber"),
-						"ExpMonth": self.card_info.get("ExpMonth"),
-						"ExpYear": self.card_info.get("ExpYear"),
-						"CvcNumber": self.card_info.get("CvcNumber")
-					}
-				})
-			elif mokapay_profile:
-
-				# if the customer_id isn't provided, then fetch from authnetuser
-				if not mokapay_profile.get("customer_id"):
-					mokapay_profile["customer_id"] = authnet_user.get("mokapay_id")
-
-				# or stored payment
-				transaction_data.update({
-					"customer_id": mokapay_profile.get("customer_id"),
-					"payment_id": mokapay_profile.get("payment_id")
-				})
-
-				# track transaction payment profile ids to return later
-				mokapay_data.update({
-					"customer_id": mokapay_profile.get("customer_id"),
-					"payment_id": mokapay_profile.get("payment_id")
-				})
-			else:
-				raise "Missing Credit Card Information"
 
 			name_parts = self.card_info["CardHolderFullName"].split(' ')
 			first_name = name_parts[0]
