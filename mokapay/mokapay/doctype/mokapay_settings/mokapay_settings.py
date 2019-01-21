@@ -4,7 +4,7 @@
 # @Project: Harpiya Kurumsal Yönetim Sistemi
 # @Filename: mokapay_settings.py
 # @Last modified by:   developer
-# @Last modified time: 2019-01-21T16:30:04+03:00
+# @Last modified time: 2019-01-21T16:34:31+03:00
 # @License: MIT License. See license.txt
 # @Copyright: Harpiya Yazılım Teknolojileri
 
@@ -333,7 +333,7 @@ class MokaPaySettings(Document):
 
 			# performt transaction finally
 			headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
-			result = make_post_request(url, data=transaction_data, headers=headers)
+			result = make_post_request("/PaymentDealer/DoDirectPaymentThreeD", data=transaction_data, headers=headers)
 			request.log_action(json.dumps(result), "Debug")
 
 			# if all went well, record transaction id
