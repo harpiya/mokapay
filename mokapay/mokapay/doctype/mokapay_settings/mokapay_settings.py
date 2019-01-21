@@ -4,7 +4,7 @@
 # @Project: Harpiya Kurumsal Yönetim Sistemi
 # @Filename: mokapay_settings.py
 # @Last modified by:   developer
-# @Last modified time: 2019-01-21T16:22:50+03:00
+# @Last modified time: 2019-01-21T16:30:04+03:00
 # @License: MIT License. See license.txt
 # @Copyright: Harpiya Yazılım Teknolojileri
 
@@ -411,10 +411,10 @@ class MokaPaySettings(Document):
 					})
 
 				card_store_info = {
-					"card_number": self.card_info.get("card_number"),
-					"expiration_month": self.card_info.get("exp_month"),
-					"expiration_year": self.card_info.get("exp_year"),
-					"card_code": self.card_info.get("card_code"),
+					"CardNumber": self.card_info.get("CardNumber"),
+					"ExpMonth": self.card_info.get("ExpMonth"),
+					"ExpYear": self.card_info.get("ExpYear"),
+					"CvcNumber": self.card_info.get("CvcNumber"),
 					"billing": self.billing_info
 				}
 
@@ -447,7 +447,7 @@ class MokaPaySettings(Document):
 					billing.get("pincode"))
 
 				card_label = "{0}{1}".format(
-					get_card_accronym(self.card_info.get("card_number")), self.card_info.get("card_number")[-4:])
+					get_card_accronym(self.card_info.get("CardNumber")), self.card_info.get("CardNumber")[-4:])
 
 				authnet_user.flags.ignore_permissions = 1
 				authnet_user.append("stored_payments", {
@@ -465,8 +465,8 @@ class MokaPaySettings(Document):
 					"address_1": self.billing_info.get("address_1"),
 					"address_2": self.billing_info.get("address_2"),
 					"expires": "{0}-{1}-01".format(
-						self.card_info.get("exp_year"),
-						self.card_info.get("exp_month")),
+						self.card_info.get("ExpYear"),
+						self.card_info.get("ExpMonth")),
 					"city": self.billing_info.get("city"),
 					"state": self.billing_info.get("state"),
 					"postal_code": self.billing_info.get("pincode"),
@@ -512,12 +512,12 @@ class MokaPaySettings(Document):
 
 		# sanitize card info
 		if self.process_data.get("card_info"):
-			self.process_data.card_info["card_number"] = "%s%s" % ("X" * \
-				 (len(self.process_data.card_info["card_number"]) - 4),
-				self.process_data["card_info"]["card_number"][-4:])
+			self.process_data.card_info["CardNumber"] = "%s%s" % ("X" * \
+				 (len(self.process_data.card_info["CardNumber"]) - 4),
+				self.process_data["card_info"]["CardNumber"][-4:])
 
-			self.process_data.card_info["card_code"] = "X" * \
-				 len(self.process_data.card_info["card_code"])
+			self.process_data.card_info["CvcNumber"] = "X" * \
+				 len(self.process_data.card_info["CvcNumber"])
 
 		if not self.process_data.get("unittest"):
 			self.integration_request = create_request_log(self.process_data, "Host", self.service_name)
