@@ -4,7 +4,7 @@
 # @Project: Harpiya Kurumsal Yönetim Sistemi
 # @Filename: mokapay_settings.py
 # @Last modified by:   developer
-# @Last modified time: 2019-01-21T23:26:25+03:00
+# @Last modified time: 2019-01-21T23:29:59+03:00
 # @License: MIT License. See license.txt
 # @Copyright: Harpiya Yazılım Teknolojileri
 
@@ -265,7 +265,7 @@ class MokaPaySettings(Document):
 					"ExpYear": self.card_info.get("ExpYear"),
 					"CvcNumber": self.card_info.get("CvcNumber"),
 					"Amount": flt(self.process_data.get("amount")),
-					"Currency": "TL"
+					"Currency": "TL",
 					"InstallmentNumber": "1",
 					"OtherTrxCode": data["order_id"],
 					"IsPreAuth": 0,
