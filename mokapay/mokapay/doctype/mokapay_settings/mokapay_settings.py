@@ -4,7 +4,7 @@
 # @Project: Harpiya Kurumsal Yönetim Sistemi
 # @Filename: mokapay_settings.py
 # @Last modified by:   developer
-# @Last modified time: 2019-01-22T00:00:50+03:00
+# @Last modified time: 2019-01-22T00:08:19+03:00
 # @License: MIT License. See license.txt
 # @Copyright: Harpiya Yazılım Teknolojileri
 
@@ -301,14 +301,14 @@ class MokaPaySettings(Document):
 			request.log_action(json.dumps(result), "Debug")
 
 			# if all went well, record transaction id
-			if result.get('Data') != null:
+			if result.get('Data') != None:
 				request.transaction_id = result.get('Data')
 				redirect_url = result.get("Data")
 				request.status = "Captured"
 				request.flags.ignore_permissions = 1
 			else:
 				request.status = "Failed"
-				request.flags.ignore_permissions = 1			
+				request.flags.ignore_permissions = 1
 
 		except MokaInvalidError as iex:
 			# log validation errors
