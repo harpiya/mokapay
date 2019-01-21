@@ -4,7 +4,7 @@
 # @Project: Harpiya Kurumsal Yönetim Sistemi
 # @Filename: mokapay_settings.py
 # @Last modified by:   developer
-# @Last modified time: 2019-01-21T22:54:31+03:00
+# @Last modified time: 2019-01-21T22:59:06+03:00
 # @License: MIT License. See license.txt
 # @Copyright: Harpiya Yazılım Teknolojileri
 
@@ -338,7 +338,7 @@ class MokaPaySettings(Document):
 			print(result)
 			print(request)
 			# if all went well, record transaction id
-			request.transaction_id = result.transaction_response.Data
+			request.transaction_id = result.Data
 			redirect_url = result.get("Data")
 			request.status = "Captured"
 			request.flags.ignore_permissions = 1
