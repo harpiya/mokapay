@@ -4,7 +4,7 @@
 # @Project: Harpiya Kurumsal Yönetim Sistemi
 # @Filename: mokapay_settings.py
 # @Last modified by:   developer
-# @Last modified time: 2019-01-21T16:18:10+03:00
+# @Last modified time: 2019-01-21T16:22:50+03:00
 # @License: MIT License. See license.txt
 # @Copyright: Harpiya Yazılım Teknolojileri
 
@@ -160,7 +160,7 @@ class MokaPaySettings(Document):
 
 	def get_settings(self):
 		settings = frappe._dict({
-			"DealerCode": self.api_dealercode,
+			"DealerCode": self.api_dealer,
 			"Username": self.api_username,
 			"Password": self.get_password(fieldname="api_password", raise_exception=False),
 			"CheckKey": "e9173cf746029f6a4c7d345f6c2f761805bbff08d2a990cd55748378189a2e76"
@@ -253,7 +253,7 @@ class MokaPaySettings(Document):
 			# build transaction data
 			transaction_data = {
 				"PaymentDealerAuthentication": {
-					"DealerCode": self.api_dealercode,
+					"DealerCode": self.api_dealer,
 					"Username": self.api_username,
 					"Password": self.get_password(fieldname="api_password", raise_exception=False),
 					"CheckKey": "e9173cf746029f6a4c7d345f6c2f761805bbff08d2a990cd55748378189a2e76"
