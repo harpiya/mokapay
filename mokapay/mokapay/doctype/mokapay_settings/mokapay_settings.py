@@ -4,7 +4,7 @@
 # @Project: Harpiya Kurumsal Yönetim Sistemi
 # @Filename: mokapay_settings.py
 # @Last modified by:   developer
-# @Last modified time: 2019-01-21T16:34:31+03:00
+# @Last modified time: 2019-01-21T16:40:27+03:00
 # @License: MIT License. See license.txt
 # @Copyright: Harpiya Yazılım Teknolojileri
 
@@ -66,7 +66,7 @@ import frappe
 from frappe import _, _dict
 from frappe.utils import get_url, call_hook_method, flt
 from frappe.model.document import Document
-from frappe.integrations.utils import create_request_log, create_payment_gateway
+from frappe.integrations.utils import create_request_log, create_payment_gateway, make_post_request
 import json
 from datetime import datetime
 import urllib.parse
