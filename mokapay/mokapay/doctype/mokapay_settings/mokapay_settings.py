@@ -4,7 +4,7 @@
 # @Project: Harpiya Kurumsal Yönetim Sistemi
 # @Filename: mokapay_settings.py
 # @Last modified by:   developer
-# @Last modified time: 2019-01-22T12:52:34+03:00
+# @Last modified time: 2019-01-22T14:03:34+03:00
 # @License: MIT License. See license.txt
 # @Copyright: Harpiya Yazılım Teknolojileri
 
@@ -103,11 +103,6 @@ class MokaPaySettings(Document):
 
 		context["year"] = datetime.today().year
 
-		# get the mokapay user record
-		authnet_user = get_mokapay_user()
-
-		if authnet_user:
-			context["stored_payments"] = authnet_user.get("stored_payments", [])
 
 	def get_embed_form(self, context={}):
 
@@ -173,8 +168,7 @@ class MokaPaySettings(Document):
 		mokapay_data = {}
 		# the current logged in contact
 		contact = get_contact()
-		# get mokapay user if available
-		authnet_user = get_mokapay_user()
+
 		# the cc data available
 		data = self.process_data
 
@@ -304,7 +298,7 @@ class MokaPaySettings(Document):
 			if result.get('Data') != None:
 				request.transaction_id = result.get('Data')
 				redirect_url = result.get("Data")
-				request.status = "Captured"
+				request.status = "Issued"
 				frappe.local.flags.redirect_location = result.get('Data')
 				request.flags.ignore_permissions = 1
 			else:
@@ -357,108 +351,6 @@ class MokaPaySettings(Document):
 			pass
 
 
-		# now check if we should store payment information on success
-		if request.status in ("Captured", "Authorized") and \
-			self.card_info and \
-			self.card_info.get("store_payment") and \
-			contact:
-
-			try:
-
-				# create customer if authnet_user doesn't exist
-				if not authnet_user:
-					request.log_action("Creating AUTHNET customer", "Info")
-
-					customer_result = authorize.Customer.from_transaction(request.transaction_id)
-
-					request.log_action("Success", "Debug")
-
-					authnet_user = frappe.get_doc({
-						"doctype": "MokaPay Users",
-						"mokapay_id": customer_result.customer_id,
-						"contact": contact.name
-					})
-
-				card_store_info = {
-					"CardNumber": self.card_info.get("CardNumber"),
-					"ExpMonth": self.card_info.get("ExpMonth"),
-					"ExpYear": self.card_info.get("ExpYear"),
-					"CvcNumber": self.card_info.get("CvcNumber"),
-					"billing": self.billing_info
-				}
-
-				request.log_action("Storing Payment Information With AUTHNET", "Info")
-				request.log_action(json.dumps(card_store_info), "Debug")
-
-				try:
-					card_result = authorize.CreditCard.create(
-						authnet_user.get("mokapay_id"), card_store_info)
-				except MokaResponseError as ex:
-					card_result = ex.full_response
-					request.log_action(json.dumps(card_result), "Debug")
-					request.log_action(str(ex), "Error")
-
-					try:
-						# duplicate payment profile
-						if card_result["messages"][0]["message"]["code"] == "E00039":
-							request.log_action("Duplicate payment profile, ignore", "Error")
-						else:
-							raise ex
-					except:
-						raise ex
-
-
-				request.log_action("Success: %s" % card_result.payment_id, "Debug")
-
-				address_short = "{0}, {1} {2}".format(
-					billing.get("city"),
-					billing.get("state"),
-					billing.get("pincode"))
-
-				card_label = "{0}{1}".format(
-					get_card_accronym(self.card_info.get("CardNumber")), self.card_info.get("CardNumber")[-4:])
-
-				authnet_user.flags.ignore_permissions = 1
-				authnet_user.append("stored_payments", {
-					"doctype": "MokaPay Stored Payment",
-					"short_text": "%s %s" % (card_label,
-					address_short),
-					"long_text": "{0}\n{1}\n{2}, {3} {4}\n{5}".format(
-						card_label,
-						billing.get("address", ""),
-						billing.get("city", ""),
-						billing.get("state", ""),
-						billing.get("pincode", ""),
-						frappe.get_value("Country",  filters={"name": self.billing_info.get("country")}, fieldname="country_name")
-					),
-					"address_1": self.billing_info.get("address_1"),
-					"address_2": self.billing_info.get("address_2"),
-					"expires": "{0}-{1}-01".format(
-						self.card_info.get("ExpYear"),
-						self.card_info.get("ExpMonth")),
-					"city": self.billing_info.get("city"),
-					"state": self.billing_info.get("state"),
-					"postal_code": self.billing_info.get("pincode"),
-					"country": frappe.get_value("Country", self.billing_info.get("country"), fieldname="code"),
-					"payment_type": "Card",
-					"mokapay_payment_id": card_result.payment_id
-				})
-
-				mokapay_data.update({
-					"customer_id": authnet_user.get("mokapay_id"),
-					"payment_id": card_result.payment_id
-				})
-
-
-				if not data.get("unittest"):
-					authnet_user.save()
-
-				request.log_action("Stored in DB", "Debug")
-			except Exception as exx:
-				# any other errors
-				request.log_action(frappe.get_traceback(), "Error")
-				raise exx
-
 		return request, redirect_to, redirect_message, mokapay_data
 
 	def create_request(self, data):
@@ -468,7 +360,6 @@ class MokaPaySettings(Document):
 		# remove sensitive info from being entered into db
 		self.card_info = self.process_data.get("card_info")
 		self.billing_info = self.process_data.get("billing_info")
-		self.shipping_info = self.process_data.get("shipping_info")
 		redirect_url = ""
 		request, redirect_to, redirect_message, mokapay_data = self.process_payment()
 
