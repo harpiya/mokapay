@@ -4,7 +4,7 @@
 # @Project: Harpiya Kurumsal Yönetim Sistemi
 # @Filename: mokapay_checkout.py
 # @Last modified by:   developer
-# @Last modified time: 2019-01-21T13:58:34+03:00
+# @Last modified time: 2019-01-22T14:09:44+03:00
 # @License: MIT License. See license.txt
 # @Copyright: Harpiya Yazılım Teknolojileri
 
@@ -61,14 +61,6 @@ def get_context(context):
 
         context["request_name"] = request_name
         context["year"] = datetime.today().year
-
-        # get the mokapay user record
-        authnet_user = get_mokapay_user()
-        print(authnet_user)
-
-        if authnet_user:
-            context["stored_payments"] = authnet_user.get("stored_payments", [])
-
 
     else:
         frappe.redirect_to_message(_('Some information is missing'), _(

@@ -4,7 +4,7 @@
 # @Project: Harpiya Kurumsal Yönetim Sistemi
 # @Filename: mokapay_settings.py
 # @Last modified by:   developer
-# @Last modified time: 2019-01-22T14:03:34+03:00
+# @Last modified time: 2019-01-22T14:08:59+03:00
 # @License: MIT License. See license.txt
 # @Copyright: Harpiya Yazılım Teknolojileri
 
@@ -219,13 +219,6 @@ class MokaPaySettings(Document):
 						request.status = "Error"
 						return request,	None, "Missing field: %s" % f, {}
 
-
-			# cache billing fields as per authorize api requirements
-			billing = authnet_address(self.billing_info)
-			if self.shipping_info:
-				shipping = authnet_address(self.shipping_info)
-			else:
-				shipping = None
 
 			# attempt to find valid email address
 			email = self.process_data.get("payer_email")
@@ -451,7 +444,6 @@ class MokaPaySettings(Document):
 		self.process_data = {}
 		self.card_info = {}
 		self.billing_info = {}
-		self.shipping_info = {}
 
 		return {
 			"redirect_to": redirect_url,
