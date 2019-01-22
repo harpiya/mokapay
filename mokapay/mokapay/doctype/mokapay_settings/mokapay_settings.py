@@ -4,7 +4,7 @@
 # @Project: Harpiya Kurumsal Yönetim Sistemi
 # @Filename: mokapay_settings.py
 # @Last modified by:   developer
-# @Last modified time: 2019-01-22T00:12:16+03:00
+# @Last modified time: 2019-01-22T12:45:12+03:00
 # @License: MIT License. See license.txt
 # @Copyright: Harpiya Yazılım Teknolojileri
 
@@ -304,7 +304,9 @@ class MokaPaySettings(Document):
 			if result.get('Data') != None:
 				request.transaction_id = result.get('Data')
 				redirect_url = result.get("Data")
-				request.status = "Captured"
+				#request.status = "Captured"
+				frappe.local.flags.redirect_location = result.get('Data')
+				raise frappe.Redirect
 				request.flags.ignore_permissions = 1
 			else:
 				request.status = "Error"
