@@ -4,7 +4,7 @@
 # @Project: Harpiya Kurumsal Yönetim Sistemi
 # @Filename: mokapay_settings.py
 # @Last modified by:   developer
-# @Last modified time: 2019-01-22T15:29:33+03:00
+# @Last modified time: 2019-01-22T15:33:54+03:00
 # @License: MIT License. See license.txt
 # @Copyright: Harpiya Yazılım Teknolojileri
 
@@ -306,7 +306,6 @@ class MokaPaySettings(Document):
 				redirect_url = result.get("Data")
 				request.status = "Issued"
 				request.flags.ignore_permissions = 1
-				r = request.get(result.get('Data'))
 
 			else:
 				request.status = "Error"
@@ -460,7 +459,7 @@ class MokaPaySettings(Document):
 				request.log_action(frappe.get_traceback(), "Error")
 				raise exx
 
-		return request, redirect_to, redirect_message, mokapay_data, r.url
+		return request, redirect_to, redirect_message, mokapay_data
 
 	def create_request(self, data):
 		self.process_data = frappe._dict(data)
