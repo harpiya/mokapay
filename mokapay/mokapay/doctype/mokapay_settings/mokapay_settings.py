@@ -4,7 +4,7 @@
 # @Project: Harpiya Kurumsal Yönetim Sistemi
 # @Filename: mokapay_settings.py
 # @Last modified by:   developer
-# @Last modified time: 2019-01-22T14:22:01+03:00
+# @Last modified time: 2019-01-22T14:28:16+03:00
 # @License: MIT License. See license.txt
 # @Copyright: Harpiya Yazılım Teknolojileri
 
@@ -72,7 +72,7 @@ from datetime import datetime
 import urllib.parse
 
 from mokapay.exceptions import MokaResponseError, MokaInvalidError
-from mokapay.utils import get_mokapay_user, get_card_accronym, moka_address, get_contact
+from mokapay.utils import get_card_accronym, moka_address, get_contact
 
 def log(*args, **kwargs):
 	print("\n".join(args))
