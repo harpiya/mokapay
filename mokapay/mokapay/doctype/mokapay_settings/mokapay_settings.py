@@ -4,7 +4,7 @@
 # @Project: Harpiya Kurumsal Yönetim Sistemi
 # @Filename: mokapay_settings.py
 # @Last modified by:   developer
-# @Last modified time: 2019-01-22T14:30:54+03:00
+# @Last modified time: 2019-01-22T14:38:55+03:00
 # @License: MIT License. See license.txt
 # @Copyright: Harpiya Yazılım Teknolojileri
 
@@ -222,6 +222,10 @@ class MokaPaySettings(Document):
 
 			# cache billing fields as per authorize api requirements
 			billing = moka_address(self.billing_info)
+			if self.shipping_info:
+				shipping = moka_address(self.shipping_info)
+			else:
+				shipping = None
 
 			# attempt to find valid email address
 			email = self.process_data.get("payer_email")
