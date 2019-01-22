@@ -4,7 +4,7 @@
 # @Project: Harpiya Kurumsal Yönetim Sistemi
 # @Filename: utils.py
 # @Last modified by:   developer
-# @Last modified time: 2019-01-22T14:16:13+03:00
+# @Last modified time: 2019-01-22T14:22:59+03:00
 # @License: MIT License. See license.txt
 # @Copyright: Harpiya Yazılım Teknolojileri
 
@@ -56,25 +56,6 @@ def get_contact(contact_name = None):
 		contact = frappe.get_doc("Contact", contact_name)
 
 	return contact
-
-def get_mokapay_user():
-
-	authnet_user = None
-	try:
-		contact = get_contact();
-		if contact:
-			authnet_user_name = frappe.get_list("MokaPay Users", fields=["name"], filters={"contact": contact.name}, as_list=1)
-			if len(authorize_user_name) > 0:
-				authnet_user_name = authnet_user_name[0][0]
-
-				#authnet_user_name = frappe.get_value("MokaPay Users",
-				#    filters={"contact": contact.name},
-				#    fieldname="name")
-				authnet_user = frappe.get_doc("MokaPay Users", authnet_user_name)
-	except:
-		authnet_user = None
-
-	return authnet_user
 
 def get_card_accronym(number):
 	card_name = ''

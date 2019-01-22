@@ -4,7 +4,7 @@
 # @Project: Harpiya Kurumsal Yönetim Sistemi
 # @Filename: mokapay_checkout.py
 # @Last modified by:   developer
-# @Last modified time: 2019-01-22T14:09:44+03:00
+# @Last modified time: 2019-01-22T14:23:53+03:00
 # @License: MIT License. See license.txt
 # @Copyright: Harpiya Yazılım Teknolojileri
 
@@ -19,8 +19,6 @@ from frappe.utils.formatters import format_value
 
 import json
 from datetime import datetime
-
-from mokapay.utils import get_mokapay_user
 
 no_cache = 1
 no_sitemap = 1
