@@ -4,7 +4,7 @@
 # @Project: Harpiya Kurumsal Yönetim Sistemi
 # @Filename: mokapay_settings.py
 # @Last modified by:   developer
-# @Last modified time: 2019-01-22T14:28:16+03:00
+# @Last modified time: 2019-01-22T14:30:54+03:00
 # @License: MIT License. See license.txt
 # @Copyright: Harpiya Yazılım Teknolojileri
 
@@ -240,6 +240,8 @@ class MokaPaySettings(Document):
 							log("AUTHNET FAILURE! Bad email: {0}".format(email))
 							raise ValueError("There are no valid emails associated with this customer")
 
+			if self.process_data.get('currency') == 'TRY':
+				return self.process_data.get('currency') = 'TL'
 			# build transaction data
 			transaction_data = {
 				"PaymentDealerAuthentication": {
@@ -255,7 +257,7 @@ class MokaPaySettings(Document):
 					"ExpYear": self.card_info.get("ExpYear"),
 					"CvcNumber": self.card_info.get("CvcNumber"),
 					"Amount": flt(self.process_data.get("amount")),
-					"Currency": "TL",
+					"Currency": self.process_data.get('currency'),
 					"InstallmentNumber": "1",
 					"OtherTrxCode": data["order_id"],
 					"IsPreAuth": 0,
