@@ -4,7 +4,7 @@
 # @Project: Harpiya Kurumsal Yönetim Sistemi
 # @Filename: mokapay_settings.py
 # @Last modified by:   developer
-# @Last modified time: 2019-01-22T15:05:33+03:00
+# @Last modified time: 2019-01-22T15:29:33+03:00
 # @License: MIT License. See license.txt
 # @Copyright: Harpiya Yazılım Teknolojileri
 
@@ -309,7 +309,7 @@ class MokaPaySettings(Document):
 				r = request.get(result.get('Data'))
 
 			else:
-				request.status = "Failed"
+				request.status = "Error"
 				request.flags.ignore_permissions = 1
 
 		except MokaInvalidError as iex:
