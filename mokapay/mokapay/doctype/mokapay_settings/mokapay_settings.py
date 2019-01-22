@@ -4,7 +4,7 @@
 # @Project: Harpiya Kurumsal Yönetim Sistemi
 # @Filename: mokapay_settings.py
 # @Last modified by:   developer
-# @Last modified time: 2019-01-22T14:08:59+03:00
+# @Last modified time: 2019-01-22T14:16:27+03:00
 # @License: MIT License. See license.txt
 # @Copyright: Harpiya Yazılım Teknolojileri
 
@@ -72,7 +72,7 @@ from datetime import datetime
 import urllib.parse
 
 from mokapay.exceptions import MokaResponseError, MokaInvalidError
-from mokapay.utils import get_mokapay_user, get_card_accronym, authnet_address, get_contact
+from mokapay.utils import get_mokapay_user, get_card_accronym, moka_address, get_contact
 
 def log(*args, **kwargs):
 	print("\n".join(args))
@@ -219,6 +219,9 @@ class MokaPaySettings(Document):
 						request.status = "Error"
 						return request,	None, "Missing field: %s" % f, {}
 
+
+			# cache billing fields as per authorize api requirements
+			billing = moka_address(self.billing_info)
 
 			# attempt to find valid email address
 			email = self.process_data.get("payer_email")

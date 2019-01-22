@@ -4,7 +4,7 @@
 # @Project: Harpiya Kurumsal Yönetim Sistemi
 # @Filename: utils.py
 # @Last modified by:   developer
-# @Last modified time: 2019-01-21T13:52:48+03:00
+# @Last modified time: 2019-01-22T14:16:13+03:00
 # @License: MIT License. See license.txt
 # @Copyright: Harpiya Yazılım Teknolojileri
 
@@ -89,7 +89,7 @@ def get_card_accronym(number):
 
 	return card_name
 
-def authnet_address(fields):
+def moka_address(fields):
 	address = {}
 
 	if fields is None:
